@@ -1,3 +1,4 @@
+"""Validates OCPP MeterValues telemetry from high-power EV chargers against electrical safety boundaries."""
 import json
 from dataclasses import dataclass, asdict
 from typing import Optional, List, Dict, Any
@@ -19,6 +20,7 @@ class OCPPTelemetryValidator:
     """
     
     def __init__(self, max_current_a: float = 500.0, max_temp_c: float = 85.0):
+        """Initializes validator with electrical safety thresholds."""
         self.max_current_a = max_current_a
         self.max_temp_c = max_temp_c
         

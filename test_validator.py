@@ -1,6 +1,8 @@
+"""Unit tests for OCPP telemetry validation."""
 from validator import OCPPTelemetryValidator, TelemetryData
 
 def test_valid_telemetry_passes():
+    """Verifies that valid telemetry data with no anomalies returns PASSED status."""
     validator = OCPPTelemetryValidator()
     payload = {
         "connectorId": 1,
@@ -22,6 +24,7 @@ def test_valid_telemetry_passes():
     print("test_valid_telemetry_passes: OK")
 
 def test_over_current_triggers_warning():
+    """Verifies that current exceeding 500 A limit triggers WARNING status."""
     validator = OCPPTelemetryValidator(max_current_a=500.0)
     payload = {
         "connectorId": 1,
@@ -41,6 +44,7 @@ def test_over_current_triggers_warning():
     print("test_over_current_triggers_warning: OK")
 
 def test_power_plausibility_failure():
+    """Verifies that power deviation exceeding 5% tolerance triggers WARNING status."""
     validator = OCPPTelemetryValidator()
     payload = {
         "connectorId": 1,
@@ -60,6 +64,7 @@ def test_power_plausibility_failure():
     print("test_power_plausibility_failure: OK")
 
 def test_missing_required_keys_raises_value_error():
+    """Verifies that missing required keys in payload raises ValueError."""
     validator = OCPPTelemetryValidator()
     payload = {
         "connectorId": 1,
@@ -76,4 +81,3 @@ def test_missing_required_keys_raises_value_error():
     except ValueError as e:
         assert "Schema Validation Error" in str(e)
     print("test_missing_required_keys_raises_value_error: OK")
-
